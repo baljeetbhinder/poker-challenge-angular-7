@@ -1,0 +1,226 @@
+
+<h4 class='display-4 text-center mt-2' id="title">
+Poker Challenge
+</h4>
+
+
+<div class='container'>
+
+
+  <section class="card bg-info rounded-0 m-4 p-0 col-4 m-auto">
+
+
+    <div class="card-header">
+      <h5 class="card-title">
+        Enter the number of pairs of poker hands to evaluate
+      </h5>
+    </div>
+
+
+    <div class="card-body">
+
+      <input id="pair_of_hands" type="number" min="1" max="10" [(ngModel)]="tables" (change)="validateTablesCount()" class='form-control rounded-0' >
+    </div>
+
+
+  </section>
+
+
+
+  <section class="card bg-info rounded-0 m-4">
+
+
+    <div class="card-header">
+
+
+      <h5 class="card-title">
+        Enter Hand Values
+      </h5>
+
+
+    </div>
+
+
+
+    <div class="card-body">
+
+      <div class="alert bg-secondary text-white rounded-0">
+
+
+        <h5>General Guidelines</h5>
+
+
+        <ul>
+
+
+          <li>
+            Exactly 5 cards in each hand are required
+          </li>
+
+
+          <li>
+            Possible card values in each hand could be 2, 3, 4, 5, 6, 7, 8, 9, T, J, Q, K, A
+          </li>
+
+
+          <li>
+            A pair can not have more than 4 cards of same value
+          </li>
+
+
+          <li>
+            Possible results will be: 'Four Of A Kind', 'Full House', 'Straight', 'Three Of A Kind', 'Two Pair', 'Pair', 'High Card'
+          </li>
+
+
+          <li>
+            Upon submission hand with green background will depict the winner
+
+          </li>
+
+
+          <li>
+            Tie will be depicted by both hands with green background
+          </li>
+
+
+          <li>
+            If you are on a mobile device try landscape orientation for a better user experience
+          </li>
+
+        </ul>
+
+
+      </div>
+
+
+      <div class="row form-group border border-dark mx-0 p-4" *ngFor='let pair of table_hands; let in = index'>
+
+
+        <label class="col-3 text-right pair-title">
+
+
+          <h5>Pair: {{in+1}}</h5>
+
+        </label>
+
+
+        <div class="col-sm">
+
+
+          <input [id]="'pair_'+in+'_hand_0'" [(ngModel)]="pair[0].value" type="text"
+          class='form-control rounded-0 border-0 text-white hand' maxlength="5" (keypress)="validateHand($event)" oninput="this.value = this.value.toUpperCase()" [ngClass]="{
+
+          'bg-danger':pair[0].is_valid==false,
+          'bg-secondary':pair[0].is_valid==true,
+          'bg-success':pair[0].is_winner==true
+
+          }"
+          [disabled]="pair[0].denomination"
+          >
+
+
+          <small *ngIf='pair[0].rank && pair[0].rank.name'>
+
+            {{pair[0].rank.name|uppercase}}
+
+          </small>
+
+
+        </div>
+
+
+        <div class="col-sm">
+
+
+          <input [id]="'pair_'+in+'_hand_1'" [(ngModel)]="pair[1].value" type="text"
+          class='form-control rounded-0 border-0 text-white hand' maxlength="5" (keypress)="validateHand($event)" oninput="this.value = this.value.toUpperCase()" [ngClass]="{
+
+          'bg-danger':pair[1].is_valid==false,
+          'bg-secondary':pair[1].is_valid==true,
+          'bg-success':pair[1].is_winner==true
+          }"
+          [disabled]="pair[1].denomination"
+          >
+
+
+          <small *ngIf='pair[1].rank && pair[1].rank.name'>
+
+            {{pair[1].rank.name|uppercase}}
+
+          </small>
+
+
+        </div>
+
+
+        <div class="col-sm-12 text-right" *ngIf='!pair[0].is_valid || !pair[1].is_valid'>
+
+
+          <small class='text-danger'>
+
+
+            <i>
+              * Pair Incomplete or Invalid, Please follow guidelines to correct errors & retry
+            </i>
+
+          </small>
+
+        </div>
+
+
+      </div>
+
+
+
+      <div class="row form-group mt-4">
+
+
+        <div class="col-sm text-center mt-4">
+
+
+          <button id="calc_btn" class='btn btn-secondary rounded-0' (click)="validate()"
+          *ngIf="table_hands.length && !table_hands[0][0].denomination"
+
+          >
+
+            Validate Hands & Calculate Result
+          </button>
+
+
+
+          <button id="reset_btn" class='btn btn-dark rounded-0' (click)="resetHandValidators()"
+            *ngIf="table_hands.length && table_hands[0][0].denomination"
+          >
+
+
+            Reset
+
+          </button>
+
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+  <hr/>
+
+
+  <footer class="px-4 text-right">
+
+
+    Coded with &hearts; by <a href="mailto://contact@baljeetbhinder.ca">Baljeet Bhinder</a>
+  </footer>
+
+
+
+</div>
